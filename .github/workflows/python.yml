@@ -1,36 +1,43 @@
 name: libirmin
 
 on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+  - pull_request
+  - push
 
 jobs:
   python:
-    strategy:
-      fail-fast: true
-      matrix:
-        os:
-          #- macos-latest
-          - ubuntu-latest
-        ocaml-compiler:
-          - 4.13.1
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout tree
+        uses: actions/checkout@v4
 
-      - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v2
+      - name: Set-up Python
+        uses: actions/setup-python@v5
         with:
-          ocaml-compiler: ${{ matrix.ocaml-compiler}}
+          python-version: "3.12"
 
-      - run: opam install libirmin
+      - name: Set-up OCaml
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: "5.1"
+          dune-cache: true
+          allow-prerelease-opam: true
+
+      - name: Install ruff and uv
+        run: pip install ruff uv
+
+      - name: Check linting
+        run: ruff check
+
+      - name: Check formatting
+        run: ruff format --diff
+
+      - name: Install opam dependencies
+        run: opam install libirmin
+
       - run: find . -name libirmin.so
-      - run: pip3 install cffi pytest --user
-      - run: opam exec -- pip3 install . --user
-      - run: opam exec -- py.test test.py
 
+      - name: Install pip dependencies
+        run: opam exec -- uv pip install --system .[dev]
+
+      - run: opam exec -- py.test test.py

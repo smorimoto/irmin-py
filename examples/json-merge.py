@@ -1,4 +1,6 @@
-from util import *
+import irmin
+from util import *  # noqa: F403
+
 
 # Configure an in-memory store with `json` contents
 config = irmin.Config.mem(contents="json")

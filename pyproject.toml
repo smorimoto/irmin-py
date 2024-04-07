@@ -1,23 +1,17 @@
-[tool.poetry]
+[project]
 name = "irmin"
 version = "0.3.3"
+dependencies = ["cffi"]
+requires-python = ">=3.7"
+authors = [{ name = "Zach Shipko", email = "zachshipko@gmail.com" }]
 description = "Irmin bindings for Python"
-authors = ["Zach Shipko <zachshipko@gmail.com>"]
-license = "ISC"
 readme = "README.md"
-repository = "https://github.com/mirage/irmin-py"
+license = { text = "ISC" }
 
-[tool.poetry.dependencies]
-python = "^3.7"
-cffi = "^1.15.0"
+[project.optional-dependencies]
+dev = ["pytest"]
 
-[tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
-black = "^22.1.0"
-
-[tool.black]
-include = '.*\.py'
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[project.urls]
+Homepage = "https://github.com/mirage/irmin-py"
+Repository = "https://github.com/mirage/irmin-py.git"
+"Bug Tracker" = "https://github.com/mirage/irmin-py/issues"

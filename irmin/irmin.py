@@ -1,4 +1,4 @@
-from .bindings import ffi, lib  # type: ignore
+from .bindings import ffi, lib
 
 from typing import Optional, Sequence, Any, List, Union, Callable, TypeVar
 import json

@@ -1,5 +1,4 @@
-from util import *
-from irmin import *
+import irmin
 import sys
 
 if len(sys.argv) < 3:
@@ -9,17 +8,17 @@ if len(sys.argv) < 3:
 root = sys.argv[1]
 
 # Configure tezos store
-config = Config.tezos(root=root)
+config = irmin.Config.tezos(root=root)
 config["readonly"] = True
 
 # Initialize the repo
-repo = Repo(config)
+repo = irmin.Repo(config)
 
-commit_hash = Hash.of_string(repo, sys.argv[2])
-commit = Commit.of_hash(repo, commit_hash)
+commit_hash = irmin.Hash.of_string(repo, sys.argv[2])
+commit = irmin.Commit.of_hash(repo, commit_hash)
 
 # Open the `master` branch
-store = Store(repo, branch=commit)
+store = irmin.Store(repo, branch=commit)
 
 
 def list_path(store, path):
@@ -35,4 +34,4 @@ def list_path(store, path):
 
 
 # Print contract paths
-list_path(store, Path(store.repo, ["data", "contracts"]))
+list_path(store, irmin.Path(store.repo, ["data", "contracts"]))
